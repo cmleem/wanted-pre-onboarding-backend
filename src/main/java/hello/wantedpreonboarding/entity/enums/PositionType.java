@@ -1,4 +1,4 @@
-package hello.wantedpreonboarding.enums;
+package hello.wantedpreonboarding.entity.enums;
 
 import lombok.Getter;
 

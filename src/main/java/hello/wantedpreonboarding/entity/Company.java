@@ -1,6 +1,6 @@
 package hello.wantedpreonboarding.entity;
 
-import hello.wantedpreonboarding.enums.RegionType;
+import hello.wantedpreonboarding.entity.enums.RegionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,8 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.swing.plaf.synth.Region;
 
 @NoArgsConstructor
 @Entity

@@ -1,7 +1,7 @@
 package hello.wantedpreonboarding.entity;
 
-import hello.wantedpreonboarding.enums.CareerType;
-import hello.wantedpreonboarding.enums.PositionType;
+import hello.wantedpreonboarding.entity.enums.CareerType;
+import hello.wantedpreonboarding.entity.enums.PositionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
