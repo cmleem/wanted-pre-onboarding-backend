@@ -3,6 +3,8 @@ package hello.wantedpreonboarding.entity;
 import hello.wantedpreonboarding.entity.enums.RegionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,7 +29,7 @@ public class Company {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false, length = 30)
+    @Enumerated(EnumType.STRING)
     private RegionType region;
 
     @Column(nullable = false, length = 255)
