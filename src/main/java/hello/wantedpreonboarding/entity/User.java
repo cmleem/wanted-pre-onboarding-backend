@@ -31,7 +31,7 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private PositionType category;
+    private PositionType position;
 
     @Enumerated(EnumType.STRING)
     private CareerType career;
