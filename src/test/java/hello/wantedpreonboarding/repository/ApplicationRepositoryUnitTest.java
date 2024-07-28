@@ -42,7 +42,7 @@ public class ApplicationRepositoryUnitTest {
         return User.builder()
                 .username("testUser")
                 .email("test@test.com")
-                .category(PositionType.DEVELOPMENT)
+                .position(PositionType.DEVELOPMENT)
                 .career(CareerType.EntryLevel)
                 .exposed(true)
                 .build();
