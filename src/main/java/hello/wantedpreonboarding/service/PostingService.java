@@ -21,17 +21,18 @@ public class PostingService  {
     private final PostingRepository postingRepository;
     private final CompanyRepository companyRepository;
 
-    public PostingDto create(String title, String content, PositionType position, Integer incentive, LocalDateTime deadLine, String stack, RegionType region, String companyName) {
+    public PostingDto create(PostingDto dto) {
+        String companyName = dto.getCompany().getName();
         Company company = companyRepository.findByName(companyName).orElseThrow(() -> new IllegalArgumentException("Company with name " + companyName + " not found"));
 
         Posting posting = Posting.builder()
-                .title(title)
-                .content(content)
-                .position(position)
-                .incentive(incentive)
-                .deadLine(deadLine)
-                .stack(stack)
-                .region(region)
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .position(dto.getPosition())
+                .incentive(dto.getIncentive())
+                .deadLine(dto.getDeadline())
+                .stack(dto.getStack())
+                .region(dto.getRegion())
                 .company(company)
                 .build();
         Posting saved = postingRepository.save(posting);

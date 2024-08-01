@@ -1,5 +1,6 @@
 package hello.wantedpreonboarding.service;
 
+import hello.wantedpreonboarding.dto.CompanyDto;
 import hello.wantedpreonboarding.dto.PostingDto;
 import hello.wantedpreonboarding.entity.Company;
 import hello.wantedpreonboarding.entity.Posting;
@@ -41,15 +42,17 @@ public class PostingServiceUnitTest {
 
     private Posting posting;
     private Company company;
+    private CompanyDto companyDto;
+    private PostingDto postingDto;
 
     private Company buildCompany() {
         return Company.builder()
                 .id(1)
                 .name("company")
                 .description("description")
-                .region(RegionType.BUSAN)
+                .region(RegionType.SEJONG)
                 .tenure(10)
-                .industry("industrial")
+                .industry("it")
                 .build();
     }
 
@@ -59,8 +62,10 @@ public class PostingServiceUnitTest {
                 .stack("Java")
                 .region(RegionType.SEOUL)
                 .company(company)
+                .position(PositionType.MANAGEMENT)
                 .title(prefix + "title")
-                .content(prefix + "details")
+                .incentive(0)
+                .content(prefix + "content")
                 .deadLine(LocalDateTime.of(2024, 1, 1, 1, 1, 1))
                 .build();
     }
@@ -69,6 +74,27 @@ public class PostingServiceUnitTest {
     void setup() {
         company = buildCompany();
         posting = buildPosting(0);
+
+        companyDto = CompanyDto.builder()
+                .id(1)
+                .name("company")
+                .industry("it")
+                .tenure(10)
+                .region(RegionType.SEJONG)
+                .description("description")
+                .build();
+
+        postingDto = PostingDto.builder()
+                .id(1)
+                .title("1title")
+                .content("1content")
+                .position(PositionType.MANAGEMENT)
+                .deadline(LocalDateTime.of(2024, 1, 1, 1, 1, 1))
+                .incentive(0)
+                .stack("Java")
+                .region(RegionType.SEOUL)
+                .company(companyDto)
+                .build();
     }
 
     @Nested
@@ -79,7 +105,7 @@ public class PostingServiceUnitTest {
             doReturn(Optional.of(company)).when(companyRepository).findByName(company.getName());
             doReturn(posting).when(postingRepository).save(any(Posting.class));
             // when
-            PostingDto dto = postingService.create(posting.getTitle(), posting.getContent(), posting.getPosition(), posting.getIncentive(), posting.getDeadLine(), posting.getStack(), posting.getRegion(), company.getName());
+            PostingDto dto = postingService.create(postingDto);
             // then
             verify(postingRepository).save(any(Posting.class));
             assertThat(dto).isNotNull();
@@ -92,7 +118,7 @@ public class PostingServiceUnitTest {
             // given
             doReturn(Optional.empty()).when(companyRepository).findByName(company.getName());
             // when
-            IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> postingService.create(posting.getTitle(), posting.getContent(), posting.getPosition(), posting.getIncentive(), posting.getDeadLine(), posting.getStack(), posting.getRegion(), company.getName()));
+            IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> postingService.create(postingDto));
             // then
             assertThat(thrown).isNotNull();
             assertThat(thrown.getMessage()).isEqualTo("Company with name " + company.getName() + " not found");
@@ -174,7 +200,7 @@ public class PostingServiceUnitTest {
             assertThat(dto.getContent()).isEqualTo(updated.getContent());
             assertThat(dto.getPosition()).isEqualTo(updated.getPosition());
             assertThat(dto.getIncentive()).isEqualTo(updated.getIncentive());
-            assertThat(dto.getDeadLine()).isEqualTo(updated.getDeadLine());
+            assertThat(dto.getDeadline()).isEqualTo(updated.getDeadLine());
             assertThat(dto.getStack()).isEqualTo(updated.getStack());
             assertThat(dto.getRegion()).isEqualTo(updated.getRegion());
         }
