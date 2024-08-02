@@ -110,6 +110,7 @@ public class ApplicationServiceUnitTest {
             // given
             doReturn(Optional.of(mockedUser)).when(userRepository).findByUsername(mockedUser.getUsername());
             doReturn(Optional.of(mockedPosting)).when(postingRepository).findById(mockedPosting.getId());
+            doReturn(Optional.empty()).when(applicationRepository).findByUser(mockedUser);
             doReturn(mockedApplication).when(applicationRepository).save(any(Application.class));
             // when
             ApplicationDto dto = applicationService.createApplication(mockedUser.getUsername(), mockedPosting.getId());
@@ -139,6 +140,19 @@ public class ApplicationServiceUnitTest {
             var thrown = assertThrows(IllegalArgumentException.class, () -> applicationService.createApplication(mockedUser.getUsername(), mockedPosting.getId()));
             // then
             assertThat(thrown.getMessage()).isEqualTo("Posting with id " + mockedPosting.getId() + " not found");
+            assertThat(thrown.getClass()).isEqualTo(IllegalArgumentException.class);
+        }
+
+        @Test
+        void failAlreadyApplicationExists() {
+            // given
+            doReturn(Optional.of(mockedUser)).when(userRepository).findByUsername(mockedUser.getUsername());
+            doReturn(Optional.of(mockedPosting)).when(postingRepository).findById(mockedPosting.getId());
+            doReturn(Optional.of(mockedUser)).when(applicationRepository).findByUser(mockedUser);
+            // when
+            var thrown = assertThrows(IllegalArgumentException.class, () -> applicationService.createApplication(mockedUser.getUsername(), mockedPosting.getId()));
+            // then
+            assertThat(thrown.getMessage()).isEqualTo("Application with User id " + mockedUser.getId() + " already exists");
             assertThat(thrown.getClass()).isEqualTo(IllegalArgumentException.class);
         }
     }

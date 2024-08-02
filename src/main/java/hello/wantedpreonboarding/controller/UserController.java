@@ -1,7 +1,6 @@
 package hello.wantedpreonboarding.controller;
 
 import hello.wantedpreonboarding.dto.ApplicationDto;
-import hello.wantedpreonboarding.dto.request.ApplicationCreateRequestDto;
 import hello.wantedpreonboarding.dto.response.ApplicationResponseDto;
 import hello.wantedpreonboarding.mapper.ApplicationMapper;
 import hello.wantedpreonboarding.service.ApplicationService;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final ApplicationService applicationService;
 
-    // 유저 생성
+    // 지원하기
     @PostMapping("/apply")
-    public ResponseEntity<?> createApplication
+    public ResponseEntity<?> apply
     (@RequestParam("username") String username,
      @RequestParam("postingId") Integer postingId
     ) {

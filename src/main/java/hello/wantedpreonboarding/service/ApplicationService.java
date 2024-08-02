@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ApplicationService {
@@ -23,6 +25,11 @@ public class ApplicationService {
     public ApplicationDto createApplication(String username, Integer postingId) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User with name " + username + " not found"));
         Posting posting = postingRepository.findById(postingId).orElseThrow(() -> new IllegalArgumentException("Posting with id " + postingId + " not found"));
+
+        Optional<Application> found = applicationRepository.findByUser(user);
+        if (found.isPresent()) {
+            throw new IllegalArgumentException("Application with User id " + user.getId() + " already exists");
+        }
 
         Application application = Application.builder()
                 .user(user)
