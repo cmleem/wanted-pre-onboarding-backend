@@ -21,17 +21,18 @@ public class PostingService  {
     private final PostingRepository postingRepository;
     private final CompanyRepository companyRepository;
 
-    public PostingDto create(String title, String content, PositionType position, Integer incentive, LocalDateTime deadLine, String stack, RegionType region, String companyName) {
+    public PostingDto create(PostingDto dto) {
+        String companyName = dto.getCompany().getName();
         Company company = companyRepository.findByName(companyName).orElseThrow(() -> new IllegalArgumentException("Company with name " + companyName + " not found"));
 
         Posting posting = Posting.builder()
-                .title(title)
-                .content(content)
-                .position(position)
-                .incentive(incentive)
-                .deadLine(deadLine)
-                .stack(stack)
-                .region(region)
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .position(dto.getPosition())
+                .incentive(dto.getIncentive())
+                .deadLine(dto.getDeadline())
+                .stack(dto.getStack())
+                .region(dto.getRegion())
                 .company(company)
                 .build();
         Posting saved = postingRepository.save(posting);
@@ -48,15 +49,15 @@ public class PostingService  {
         return all.map(PostingMapper::toDto);
     }
 
-    public PostingDto updatePosting(Integer postingId, String title, String content, PositionType position, Integer incentive, LocalDateTime deadLine, String stack, RegionType region) {
+    public PostingDto updatePosting(Integer postingId, PostingDto dto) {
         Posting posting = getPosting(postingId);
-        posting.updateTitle(title);
-        posting.updateContent(content);
-        posting.updatePosition(position);
-        posting.updateIncentive(incentive);
-        posting.updateDeadLine(deadLine);
-        posting.updateStack(stack);
-        posting.updateRegion(region);
+        posting.updateTitle(dto.getTitle());
+        posting.updateContent(dto.getContent());
+        posting.updatePosition(dto.getPosition());
+        posting.updateIncentive(dto.getIncentive());
+        posting.updateDeadLine(dto.getDeadline());
+        posting.updateStack(dto.getStack());
+        posting.updateRegion(dto.getRegion());
         return PostingMapper.toDto(posting);
     }
 

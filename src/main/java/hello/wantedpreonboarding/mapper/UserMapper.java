@@ -1,6 +1,7 @@
 package hello.wantedpreonboarding.mapper;
 
 import hello.wantedpreonboarding.dto.UserDto;
+import hello.wantedpreonboarding.dto.response.UserResponseDto;
 import hello.wantedpreonboarding.entity.User;
 
 public class UserMapper {
@@ -13,6 +14,17 @@ public class UserMapper {
                 .position(entity.getPosition())
                 .career(entity.getCareer())
                 .exposed(entity.getExposed())
+                .build();
+    }
+
+    public static UserResponseDto toResponse(UserDto user) {
+        return UserResponseDto.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .position(user.getPosition())
+                .career(user.getCareer())
+                .exposed(user.getExposed())
                 .build();
     }
 }
