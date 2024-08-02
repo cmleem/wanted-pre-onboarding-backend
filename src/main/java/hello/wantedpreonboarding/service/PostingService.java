@@ -49,15 +49,15 @@ public class PostingService  {
         return all.map(PostingMapper::toDto);
     }
 
-    public PostingDto updatePosting(Integer postingId, String title, String content, PositionType position, Integer incentive, LocalDateTime deadLine, String stack, RegionType region) {
+    public PostingDto updatePosting(Integer postingId, PostingDto dto) {
         Posting posting = getPosting(postingId);
-        posting.updateTitle(title);
-        posting.updateContent(content);
-        posting.updatePosition(position);
-        posting.updateIncentive(incentive);
-        posting.updateDeadLine(deadLine);
-        posting.updateStack(stack);
-        posting.updateRegion(region);
+        posting.updateTitle(dto.getTitle());
+        posting.updateContent(dto.getContent());
+        posting.updatePosition(dto.getPosition());
+        posting.updateIncentive(dto.getIncentive());
+        posting.updateDeadLine(dto.getDeadline());
+        posting.updateStack(dto.getStack());
+        posting.updateRegion(dto.getRegion());
         return PostingMapper.toDto(posting);
     }
 

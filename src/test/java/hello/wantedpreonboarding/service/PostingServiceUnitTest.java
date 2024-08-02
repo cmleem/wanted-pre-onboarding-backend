@@ -183,24 +183,25 @@ public class PostingServiceUnitTest {
         void success() {
             // given
             doReturn(Optional.of(posting)).when(postingRepository).findById(posting.getId());
-            Posting updated = Posting.builder()
+            PostingDto updated = PostingDto.builder()
                     .title("updated")
                     .content("updated")
                     .position(PositionType.MEDICAL)
                     .incentive(0)
-                    .deadLine(LocalDateTime.of(2025, 1, 1, 1, 1, 1))
+                    .deadline(LocalDateTime.of(2025, 1, 1, 1, 1, 1))
                     .stack("C++")
                     .region(RegionType.JEJU)
                     .build();
+
             // when
-            PostingDto dto = postingService.updatePosting(posting.getId(), updated.getTitle(), updated.getContent(), updated.getPosition(), updated.getIncentive(), updated.getDeadLine(), updated.getStack(), updated.getRegion());
+            PostingDto dto = postingService.updatePosting(posting.getId(), updated);
             // then
             assertThat(dto).isNotNull();
             assertThat(dto.getTitle()).isEqualTo(updated.getTitle());
             assertThat(dto.getContent()).isEqualTo(updated.getContent());
             assertThat(dto.getPosition()).isEqualTo(updated.getPosition());
             assertThat(dto.getIncentive()).isEqualTo(updated.getIncentive());
-            assertThat(dto.getDeadline()).isEqualTo(updated.getDeadLine());
+            assertThat(dto.getDeadline()).isEqualTo(updated.getDeadline());
             assertThat(dto.getStack()).isEqualTo(updated.getStack());
             assertThat(dto.getRegion()).isEqualTo(updated.getRegion());
         }

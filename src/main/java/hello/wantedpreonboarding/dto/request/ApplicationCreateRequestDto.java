@@ -1,7 +1,5 @@
 package hello.wantedpreonboarding.dto.request;
 
-import hello.wantedpreonboarding.dto.response.PostingResponseDto;
-import hello.wantedpreonboarding.dto.response.UserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
