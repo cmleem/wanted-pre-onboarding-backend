@@ -21,8 +21,7 @@ public class PostingService  {
     private final PostingRepository postingRepository;
     private final CompanyRepository companyRepository;
 
-    public PostingDto create(PostingDto dto) {
-        String companyName = dto.getCompany().getName();
+    public PostingDto create(PostingDto dto, String companyName) {
         Company company = companyRepository.findByName(companyName).orElseThrow(() -> new IllegalArgumentException("Company with name " + companyName + " not found"));
 
         Posting posting = Posting.builder()

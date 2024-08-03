@@ -105,7 +105,7 @@ public class PostingServiceUnitTest {
             doReturn(Optional.of(company)).when(companyRepository).findByName(company.getName());
             doReturn(posting).when(postingRepository).save(any(Posting.class));
             // when
-            PostingDto dto = postingService.create(postingDto);
+            PostingDto dto = postingService.create(postingDto, companyDto.getName());
             // then
             verify(postingRepository).save(any(Posting.class));
             assertThat(dto).isNotNull();
@@ -118,7 +118,7 @@ public class PostingServiceUnitTest {
             // given
             doReturn(Optional.empty()).when(companyRepository).findByName(company.getName());
             // when
-            IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> postingService.create(postingDto));
+            IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> postingService.create(postingDto, companyDto.getName()));
             // then
             assertThat(thrown).isNotNull();
             assertThat(thrown.getMessage()).isEqualTo("Company with name " + company.getName() + " not found");

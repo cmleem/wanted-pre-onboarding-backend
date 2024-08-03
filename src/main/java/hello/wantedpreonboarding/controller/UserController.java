@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final ApplicationService applicationService;
 
+    // 채용 공고 1회 지원 로직 수정
     // 지원하기
     @PostMapping("/apply")
     public ResponseEntity<?> apply
