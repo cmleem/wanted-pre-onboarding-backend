@@ -156,7 +156,7 @@ public class PostingControllerUnitTest {
             var pageRequest = PageRequest.of(0, 10, Sort.by("id").descending());
             var page = new PageImpl<>(list, pageRequest, 5);
 
-            doReturn(page).when(postingService).readPostingList(pageRequest);
+            doReturn(page).when(postingService).readPostingList(pageRequest, "");
             // when
             ResultActions resultActions = mockMvc.perform(get("/api/posting/read/list"));
             // then

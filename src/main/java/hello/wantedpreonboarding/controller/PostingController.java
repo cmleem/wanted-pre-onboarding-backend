@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostingController {
     private final PostingService postingService;
 
-//     "status": 415,"error": "Unsupported Media Type"
+    //     "status": 415,"error": "Unsupported Media Type"
     @PostMapping("/create")
     public ResponseEntity<?> createPosting(
             @RequestBody PostingCreateRequestDto request) {
@@ -49,7 +50,7 @@ public class PostingController {
     // http response deadline, createdAt 이 null 로 나옴
     @GetMapping("/read/{postingId}")
     public ResponseEntity<?> readPosting
-            (@PathVariable("postingId") Integer postingId) {
+    (@PathVariable("postingId") Integer postingId) {
         PostingDto dto = postingService.readPosting(postingId);
         PostingResponseDto response = PostingMapper.toResponse(dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -57,8 +58,10 @@ public class PostingController {
 
     @GetMapping("/read/list")
     public ResponseEntity<?> readPostingList
-            (@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<PostingDto> dtos = postingService.readPostingList(pageable);
+            (@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+             @RequestParam(value = "keyword", defaultValue = "") String keyword
+             ) {
+        Page<PostingDto> dtos = postingService.readPostingList(pageable, keyword);
         Page<PostingResponseDto> response = dtos.map(PostingMapper::toResponse);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -66,7 +69,7 @@ public class PostingController {
     @PatchMapping("/update/{postingId}")
     public ResponseEntity<?> updatePosting
             (@PathVariable("postingId") Integer postingId,
-            @RequestBody PostingUpdateRequestDto request) {
+             @RequestBody PostingUpdateRequestDto request) {
         PostingDto postingDto = PostingDto.builder()
                 .title(request.getTitle())
                 .content(request.getContent())

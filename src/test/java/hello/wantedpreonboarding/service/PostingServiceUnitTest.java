@@ -168,7 +168,7 @@ public class PostingServiceUnitTest {
 
             doReturn(page).when(postingRepository).findAll(pageRequest);
             // when
-            Page<PostingDto> dtos = postingService.readPostingList(pageRequest);
+            Page<PostingDto> dtos = postingService.readPostingList(pageRequest, "");
             // then
             verify(postingRepository).findAll(pageRequest);
             assertThat(dtos).isNotNull();
