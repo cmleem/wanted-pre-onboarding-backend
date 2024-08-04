@@ -4,6 +4,7 @@ import hello.wantedpreonboarding.dto.PostingDto;
 import hello.wantedpreonboarding.dto.response.PostingResponseDto;
 import hello.wantedpreonboarding.entity.Posting;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostingMapper {
@@ -21,6 +22,20 @@ public class PostingMapper {
                 .build();
     }
 
+    public static PostingDto toDto(Posting entity, Boolean containCompany) {
+        return PostingDto.builder()
+                .id(entity.getId())
+                .title(entity.getTitle())
+                .content(entity.getContent())
+                .stack(entity.getStack())
+                .region(entity.getRegion())
+                .position(entity.getPosition())
+                .incentive(entity.getIncentive())
+                .company(containCompany ? CompanyMapper.toDto(entity.getCompany()) : null)
+                .deadline(entity.getDeadLine())
+                .build();
+    }
+
     public static PostingResponseDto toResponse(PostingDto dto) {
         PostingResponseDto response = PostingResponseDto.builder()
                 .id(dto.getId())
@@ -30,13 +45,9 @@ public class PostingMapper {
                 .region(dto.getRegion())
                 .position(dto.getPosition())
                 .incentive(dto.getIncentive())
-                .company(CompanyMapper.toResponse(dto.getCompany()))
                 .build();
-        if (!dto.getPostingList().isEmpty()) {
-            List<PostingResponseDto> postingList = dto.getPostingList().stream()
-                    .map(postingDto -> toResponse(postingDto)).toList();
-            postingList.forEach(postingDto -> postingDto.setPostingList(null));
-            response.setPostingList(postingList);
+        if (dto.getCompany() != null) {
+            response.setCompany(CompanyMapper.toResponse(dto.getCompany()));
         }
         return response;
     }

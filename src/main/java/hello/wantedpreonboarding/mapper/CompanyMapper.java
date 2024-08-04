@@ -13,6 +13,7 @@ public class CompanyMapper {
                 .tenure(entity.getTenure())
                 .region(entity.getRegion())
                 .industry(entity.getIndustry())
+                .postingList(entity.getPostingList().stream().map(posting -> PostingMapper.toDto(posting, false)).toList())
                 .build();
     }
 
@@ -24,6 +25,7 @@ public class CompanyMapper {
                 .tenure(company.getTenure())
                 .region(company.getRegion())
                 .industry(company.getIndustry())
+                .postingList(company.getPostingList().stream().map(PostingMapper::toResponse).toList())
                 .build();
     }
 }

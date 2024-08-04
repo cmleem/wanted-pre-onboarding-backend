@@ -55,10 +55,6 @@ public class Posting {
     @ManyToOne
     private Company company;
 
-    @Builder.Default
-    @OneToMany
-    private List<Posting> postingList = new ArrayList<>();
-
     public void updateTitle(String title) {
         this.title = title;
     }

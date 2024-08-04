@@ -27,6 +27,4 @@ public class PostingResponseDto {
     private String stack;
     private RegionType region;
     private CompanyResponseDto company;
-    @Builder.Default
-    private List<PostingResponseDto> postingList = new ArrayList<>();
 }

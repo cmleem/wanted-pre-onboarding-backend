@@ -23,6 +23,4 @@ public class PostingDto {
     private String stack;
     private RegionType region;
     private CompanyDto company;
-    @Builder.Default
-    private List<PostingDto> postingList = new ArrayList<>();
 }
