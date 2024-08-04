@@ -45,6 +45,7 @@ public class PostingMapper {
                 .region(dto.getRegion())
                 .position(dto.getPosition())
                 .incentive(dto.getIncentive())
+                .deadline(dto.getDeadline())
                 .build();
         if (dto.getCompany() != null) {
             response.setCompany(CompanyMapper.toResponse(dto.getCompany()));

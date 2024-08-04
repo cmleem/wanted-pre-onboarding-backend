@@ -43,7 +43,6 @@ public class Posting {
     @Column(length = 255)
     private Integer incentive;
 
-    @Timestamp
     private LocalDateTime deadLine;
 
     @Column(length = 255)

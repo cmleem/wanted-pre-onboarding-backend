@@ -1,5 +1,6 @@
 package hello.wantedpreonboarding.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import hello.wantedpreonboarding.entity.enums.PositionType;
 import hello.wantedpreonboarding.entity.enums.RegionType;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class PostingCreateRequestDto {
     private String content;
     private PositionType position;
     private Integer incentive;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime deadline;
     private String stack;
     private RegionType region;
