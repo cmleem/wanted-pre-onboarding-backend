@@ -48,6 +48,7 @@ public class PostingController {
     }
 
     // http response deadline, createdAt 이 null 로 나옴
+    // 채용 공고 조회할 때 해당 회사의 다른 공고들 조회 가능하기
     @GetMapping("/read/{postingId}")
     public ResponseEntity<?> readPosting
     (@PathVariable("postingId") Integer postingId) {

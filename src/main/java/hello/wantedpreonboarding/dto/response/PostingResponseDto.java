@@ -3,12 +3,15 @@ package hello.wantedpreonboarding.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import hello.wantedpreonboarding.entity.enums.PositionType;
 import hello.wantedpreonboarding.entity.enums.RegionType;
+import hello.wantedpreonboarding.repository.PostingRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,4 +27,6 @@ public class PostingResponseDto {
     private String stack;
     private RegionType region;
     private CompanyResponseDto company;
+    @Builder.Default
+    private List<PostingResponseDto> postingList = new ArrayList<>();
 }

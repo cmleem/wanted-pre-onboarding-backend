@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +49,15 @@ public class PostingService  {
 
     public PostingDto readPosting(Integer postingId) {
         Posting posting = getPosting(postingId);
-        return PostingMapper.toDto(posting);
+        List<PostingDto> dtoList = new ArrayList<>();
+        List<Posting> list = postingRepository.findAllByCompany(posting.getCompany());
+        if (!list.isEmpty()) {
+            dtoList = list.stream().map(PostingMapper::toDto).collect(Collectors.toList());
+        }
+
+        PostingDto postingDto = PostingMapper.toDto(posting);
+        postingDto.setPostingList(dtoList);
+        return postingDto;
     }
 
     public Page<PostingDto> readPostingList(Pageable pageable, String keyword) {

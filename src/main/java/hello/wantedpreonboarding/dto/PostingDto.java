@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,4 +23,6 @@ public class PostingDto {
     private String stack;
     private RegionType region;
     private CompanyDto company;
+    @Builder.Default
+    private List<PostingDto> postingList = new ArrayList<>();
 }

@@ -131,7 +131,9 @@ public class PostingServiceUnitTest {
         @Test
         void success() {
             // given
+            List<Posting> postings = new ArrayList<>();
             doReturn(Optional.of(posting)).when(postingRepository).findById(posting.getId());
+            doReturn(postings).when(postingRepository).findAllByCompany(posting.getCompany());
             // when
             PostingDto dto = postingService.readPosting(posting.getId());
             // then
