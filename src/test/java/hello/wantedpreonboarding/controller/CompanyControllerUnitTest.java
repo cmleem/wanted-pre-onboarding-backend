@@ -44,6 +44,7 @@ public class CompanyControllerUnitTest {
                 .industry("it")
                 .region(RegionType.BUSAN)
                 .name("testCompany")
+                .postingList(new ArrayList<>())
                 .build();
     }
 

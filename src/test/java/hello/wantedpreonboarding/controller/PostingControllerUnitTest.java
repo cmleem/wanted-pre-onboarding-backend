@@ -75,6 +75,7 @@ public class PostingControllerUnitTest {
                 .region(RegionType.BUSAN)
                 .name("testCompany")
                 .description("testCompany")
+                .postingList(new ArrayList<>())
                 .build();
 
         postingDto = PostingDto.builder()

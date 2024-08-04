@@ -8,6 +8,10 @@ import hello.wantedpreonboarding.entity.enums.PositionType;
 import hello.wantedpreonboarding.entity.enums.RegionType;
 import hello.wantedpreonboarding.repository.CompanyRepository;
 import hello.wantedpreonboarding.repository.PostingRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,6 +33,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
@@ -133,7 +139,6 @@ public class PostingServiceUnitTest {
             // given
             List<Posting> postings = new ArrayList<>();
             doReturn(Optional.of(posting)).when(postingRepository).findById(posting.getId());
-            doReturn(postings).when(postingRepository).findAllByCompany(posting.getCompany());
             // when
             PostingDto dto = postingService.readPosting(posting.getId());
             // then
@@ -167,12 +172,10 @@ public class PostingServiceUnitTest {
 
             PageRequest pageRequest = PageRequest.of(0, 5, Sort.Direction.ASC, "id");
             PageImpl<Posting> page = new PageImpl<>(postingList);
-
-            doReturn(page).when(postingRepository).findAll(pageRequest);
+            doReturn(page).when(postingRepository).findAll(any(Specification.class), eq(pageRequest));
             // when
             Page<PostingDto> dtos = postingService.readPostingList(pageRequest, "");
             // then
-            verify(postingRepository).findAll(pageRequest);
             assertThat(dtos).isNotNull();
             assertThat(dtos).hasSize(5);
             assertThat(dtos.getContent().get(0).getTitle()).isEqualTo(postingList.get(0).getTitle());

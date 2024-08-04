@@ -83,6 +83,7 @@ public class UserControllerUnitTest {
                 .tenure(10)
                 .region(RegionType.SEJONG)
                 .name("testDescription")
+                .postingList(new ArrayList<>())
                 .build();
 
         postingDto = PostingDto.builder()
