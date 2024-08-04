@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -29,8 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CompanyControllerUnitTest {
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
     @MockBean
     private CompanyService companyService;
 
@@ -83,7 +80,6 @@ public class CompanyControllerUnitTest {
             }
             var pageRequest = PageRequest.of(0, 10, Sort.by("id").descending());
             var page = new PageImpl<>(list, pageRequest, list.size());
-
             doReturn(page).when(companyService).getCompanyList(pageRequest);
             // when
             ResultActions resultActions = mockMvc.perform(get("/api/company/"));

@@ -13,7 +13,6 @@ public class UserMapper {
                 .email(entity.getEmail())
                 .position(entity.getPosition())
                 .career(entity.getCareer())
-                .exposed(entity.getExposed())
                 .build();
     }
 
@@ -24,7 +23,6 @@ public class UserMapper {
                 .email(user.getEmail())
                 .position(user.getPosition())
                 .career(user.getCareer())
-                .exposed(user.getExposed())
                 .build();
     }
 }

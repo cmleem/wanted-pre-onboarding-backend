@@ -73,7 +73,6 @@ public class UserControllerUnitTest {
                 .email("test@test.com")
                 .career(CareerType.OneToThreeYears)
                 .position(PositionType.MEDICAL)
-                .exposed(true)
                 .build();
 
         companyDto = CompanyDto.builder()
@@ -141,7 +140,6 @@ public class UserControllerUnitTest {
                     .createdAt(LocalDateTime.now())
                     .build();
             doReturn(dto).when(applicationService).readApplicationById(eq(1));
-
             // when
             ResultActions resultActions = mockMvc.perform(get("/api/user/application/1"));
             // then
@@ -172,16 +170,13 @@ public class UserControllerUnitTest {
             PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("id").descending());
             PageImpl<ApplicationDto> page = new PageImpl<>(applications, pageRequest, applications.size());
             doReturn(page).when(applicationService).readApplicationList(pageRequest);
-
             // when
             ResultActions resultActions = mockMvc.perform(get("/api/user/applications"));
-
             // then
-            resultActions.andDo(print());
             resultActions.andExpectAll(
                     status().isOk(),
                     jsonPath("$.content.size()").value(3)
-            );
+            ).andDo(print());
         }
     }
 

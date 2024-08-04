@@ -8,10 +8,6 @@ import hello.wantedpreonboarding.entity.enums.PositionType;
 import hello.wantedpreonboarding.entity.enums.RegionType;
 import hello.wantedpreonboarding.repository.CompanyRepository;
 import hello.wantedpreonboarding.repository.PostingRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -80,7 +76,6 @@ public class PostingServiceUnitTest {
     void setup() {
         company = buildCompany();
         posting = buildPosting(0);
-
         companyDto = CompanyDto.builder()
                 .id(1)
                 .name("company")
@@ -89,7 +84,6 @@ public class PostingServiceUnitTest {
                 .region(RegionType.SEJONG)
                 .description("description")
                 .build();
-
         postingDto = PostingDto.builder()
                 .id(1)
                 .title("1title")
@@ -197,7 +191,6 @@ public class PostingServiceUnitTest {
                     .stack("C++")
                     .region(RegionType.JEJU)
                     .build();
-
             // when
             PostingDto dto = postingService.updatePosting(posting.getId(), updated);
             // then

@@ -46,29 +46,27 @@ public class PostingController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // http response deadline, createdAt 이 null 로 나옴
     @GetMapping("/read/{postingId}")
-    public ResponseEntity<?> readPosting
-    (@PathVariable("postingId") Integer postingId) {
+    public ResponseEntity<?> readPosting(
+            @PathVariable("postingId") Integer postingId) {
         PostingDto dto = postingService.readPosting(postingId);
         PostingResponseDto response = PostingMapper.toResponse(dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/read/list")
-    public ResponseEntity<?> readPostingList
-            (@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-             @RequestParam(value = "keyword", defaultValue = "") String keyword
-             ) {
+    public ResponseEntity<?> readPostingList(
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(value = "keyword", defaultValue = "") String keyword) {
         Page<PostingDto> dtos = postingService.readPostingList(pageable, keyword);
         Page<PostingResponseDto> response = dtos.map(PostingMapper::toResponse);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PatchMapping("/update/{postingId}")
-    public ResponseEntity<?> updatePosting
-            (@PathVariable("postingId") Integer postingId,
-             @RequestBody PostingUpdateRequestDto request) {
+    public ResponseEntity<?> updatePosting(
+            @PathVariable("postingId") Integer postingId,
+            @RequestBody PostingUpdateRequestDto request) {
         PostingDto postingDto = PostingDto.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
@@ -84,8 +82,8 @@ public class PostingController {
     }
 
     @DeleteMapping("/delete/{postingId}")
-    public ResponseEntity<?> deletePosting
-            (@PathVariable("postingId") Integer postingId) {
+    public ResponseEntity<?> deletePosting(
+            @PathVariable("postingId") Integer postingId) {
         postingService.deletePosting(postingId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

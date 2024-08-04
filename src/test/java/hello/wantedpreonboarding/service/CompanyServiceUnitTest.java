@@ -29,7 +29,6 @@ import static org.mockito.Mockito.verify;
 public class CompanyServiceUnitTest {
     @Mock
     CompanyRepository companyRepository;
-
     @InjectMocks
     CompanyService companyService;
 
@@ -88,7 +87,6 @@ public class CompanyServiceUnitTest {
 
             PageRequest pageRequest = PageRequest.of(0, 3, Sort.Direction.ASC, "title");
             PageImpl<Company> page = new PageImpl<>(companyList);
-
             doReturn(page).when(companyRepository).findAll(pageRequest);
             // when
             Page<CompanyDto> companies = companyService.getCompanyList(pageRequest);

@@ -31,7 +31,6 @@ public class UserRepositoryUnitTest {
                 .email("test@test.com")
                 .position(PositionType.DEVELOPMENT)
                 .career(CareerType.EntryLevel)
-                .exposed(true)
                 .build();
     }
 

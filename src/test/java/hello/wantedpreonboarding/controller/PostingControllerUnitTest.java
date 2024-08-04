@@ -146,7 +146,6 @@ public class PostingControllerUnitTest {
 
     @Nested
     class ReadList {
-
         @Test
         void success() throws Exception {
             // given
@@ -156,7 +155,6 @@ public class PostingControllerUnitTest {
             }
             var pageRequest = PageRequest.of(0, 10, Sort.by("id").descending());
             var page = new PageImpl<>(list, pageRequest, 5);
-
             doReturn(page).when(postingService).readPostingList(pageRequest, "");
             // when
             ResultActions resultActions = mockMvc.perform(get("/api/posting/read/list"));
@@ -185,7 +183,6 @@ public class PostingControllerUnitTest {
                     .stack("Python")
                     .region(RegionType.BUSAN)
                     .build();
-
             doReturn(updated).when(postingService).updatePosting(eq(postingDto.getId()), any(PostingDto.class));
             // when
             ResultActions resultActions = mockMvc.perform(patch("/api/posting/update/" + postingDto.getId())

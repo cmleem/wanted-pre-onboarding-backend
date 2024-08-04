@@ -4,9 +4,6 @@ import hello.wantedpreonboarding.dto.PostingDto;
 import hello.wantedpreonboarding.dto.response.PostingResponseDto;
 import hello.wantedpreonboarding.entity.Posting;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PostingMapper {
     public static PostingDto toDto(Posting entity) {
         return PostingDto.builder()
