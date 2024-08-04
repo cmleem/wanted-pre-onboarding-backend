@@ -55,7 +55,6 @@ public class ApplicationService {
     }
 
     private Application getApplication(Integer id) {
-        Application application = applicationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Application with id " + id + " not found"));
-        return application;
+        return applicationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Application with id " + id + " not found"));
     }
 }

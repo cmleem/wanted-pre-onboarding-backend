@@ -15,5 +15,4 @@ public class UserResponseDto {
     private String email;
     private CareerType career;
     private PositionType position;
-    private Boolean exposed;
 }

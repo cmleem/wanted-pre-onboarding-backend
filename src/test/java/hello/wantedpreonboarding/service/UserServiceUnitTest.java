@@ -30,7 +30,6 @@ import static org.mockito.Mockito.verify;
 public class UserServiceUnitTest {
     @Mock
     private UserRepository userRepository;
-
     @InjectMocks
     private UserService userService;
 
@@ -42,7 +41,6 @@ public class UserServiceUnitTest {
                 .email(prefix + "testUser@test.com")
                 .position(PositionType.DEVELOPMENT)
                 .career(CareerType.EntryLevel)
-                .exposed(true)
                 .build();
     }
 
@@ -88,7 +86,6 @@ public class UserServiceUnitTest {
 
             PageRequest pageRequest = PageRequest.of(0, 5, Sort.Direction.ASC, "id");
             PageImpl<User> page = new PageImpl<>(userList);
-
             doReturn(page).when(userRepository).findAll(pageRequest);
             // when
             Page<UserDto> users = userService.getUsers(pageRequest);
@@ -104,7 +101,6 @@ public class UserServiceUnitTest {
             // given
             PageRequest pageRequest = PageRequest.of(0, 5, Sort.Direction.ASC, "id");
             PageImpl<User> page = new PageImpl<>(List.of());
-
             doReturn(page).when(userRepository).findAll(pageRequest);
             // when
             Page<UserDto> users = userService.getUsers(pageRequest);

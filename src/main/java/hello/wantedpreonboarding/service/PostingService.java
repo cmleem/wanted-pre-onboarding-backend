@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -70,15 +69,14 @@ public class PostingService  {
                 query.distinct(true); // 중복 제거
                 Join<Posting, Company> company = root.join("company", JoinType.LEFT);
 
-                return cb.or(cb.like(root.get("title"), "%" + keyword + "%"),
-                        cb.like(root.get("content"), "%" + keyword + "%"),
-                        cb.like(root.get("position"), "%" + keyword + "%"),
-                        cb.like(root.get("stack"), "%" + keyword + "%"),
-                        cb.like(root.get("region"), "%" + keyword + "%"),
-                        cb.like(root.get("position"), "%" + keyword + "%"),
-                        cb.like(company.get("name"), "%" + keyword + "%"),
-                        cb.like(company.get("description"), "%" + keyword + "%"),
-                        cb.like(company.get("industry"), "%" + keyword + "%")
+                return cb.or(cb.like(root.get("title"), "%" + keyword + "%"), // 채용공고 제목
+                        cb.like(root.get("content"), "%" + keyword + "%"), // 채용공고 내용
+                        cb.like(root.get("position"), "%" + keyword + "%"), // 채용공고 직무
+                        cb.like(root.get("stack"), "%" + keyword + "%"), // 채용공고 스택
+                        cb.like(root.get("region"), "%" + keyword + "%"), // 채용공고 지역
+                        cb.like(company.get("name"), "%" + keyword + "%"), // 회사명
+                        cb.like(company.get("description"), "%" + keyword + "%"), // 회사 소개
+                        cb.like(company.get("industry"), "%" + keyword + "%") // 업종
                 );
             }
         };
@@ -103,7 +101,6 @@ public class PostingService  {
     }
 
     private Posting getPosting(Integer postingId) {
-        Posting posting = postingRepository.findById(postingId).orElseThrow(() -> new IllegalArgumentException("Posting with id " + postingId + " not found"));
-        return posting;
+        return postingRepository.findById(postingId).orElseThrow(() -> new IllegalArgumentException("Posting with id " + postingId + " not found"));
     }
 }

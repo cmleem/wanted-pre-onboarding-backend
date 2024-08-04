@@ -11,5 +11,4 @@ import java.util.List;
 
 public interface PostingRepository extends JpaRepository<Posting, Integer> {
     Page<Posting> findAll(Specification<Posting> spec, Pageable pageable);
-    List<Posting> findAllByCompany(Company company);
 }

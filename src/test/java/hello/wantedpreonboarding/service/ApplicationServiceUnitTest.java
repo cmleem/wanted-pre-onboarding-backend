@@ -57,13 +57,12 @@ public class ApplicationServiceUnitTest {
                 .email("testUser@test.com")
                 .position(PositionType.DEVELOPMENT)
                 .career(CareerType.EntryLevel)
-                .exposed(true)
                 .build();
     }
 
-    private Company buildCompany(int prefix) {
+    private Company buildCompany(int num) {
         return Company.builder()
-                .id(prefix)
+                .id(num)
                 .name("testCompany")
                 .description("testCompanyDescription")
                 .tenure(10)
@@ -72,11 +71,11 @@ public class ApplicationServiceUnitTest {
                 .build();
     }
 
-    private Posting buildPosting(int prefix) {
+    private Posting buildPosting() {
         return Posting.builder()
-                .id(prefix)
-                .title(prefix + "testPosting")
-                .stack(prefix + "Java")
+                .id(1)
+                .title("testPosting")
+                .stack("Java")
                 .content("testContent")
                 .company(mockedCompany)
                 .deadLine(LocalDateTime.of(2024, 1, 1, 1, 1, 1))
@@ -86,9 +85,9 @@ public class ApplicationServiceUnitTest {
                 .build();
     }
 
-    private Application buildApplication(int prefix) {
+    private Application buildApplication() {
         return Application.builder()
-                .id(prefix)
+                .id(1)
                 .user(mockedUser)
                 .posting(mockedPosting)
                 .createdAt(LocalDateTime.of(2024, 1, 1, 1, 1, 1))
@@ -98,9 +97,9 @@ public class ApplicationServiceUnitTest {
     @BeforeEach
     void setup() {
         mockedUser = buildUser();
-        mockedCompany = buildCompany(0);
-        mockedPosting = buildPosting(0);
-        mockedApplication = buildApplication(0);
+        mockedCompany = buildCompany(1);
+        mockedPosting = buildPosting();
+        mockedApplication = buildApplication();
     }
 
     @Nested
@@ -209,12 +208,9 @@ public class ApplicationServiceUnitTest {
 
             PageRequest pageRequest = PageRequest.of(0, 3, Sort.Direction.ASC, "id");
             var page = new PageImpl<>(applicationList);
-
             doReturn(page).when(applicationRepository).findAll(pageRequest);
-
             // when
             Page<ApplicationDto> applications = applicationService.readApplicationList(pageRequest);
-
             // then
             verify(applicationRepository).findAll(pageRequest);
             assertThat(applications).isNotNull();

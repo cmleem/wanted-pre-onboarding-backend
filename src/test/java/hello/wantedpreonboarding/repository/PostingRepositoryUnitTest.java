@@ -1,10 +1,7 @@
 package hello.wantedpreonboarding.repository;
 
-import hello.wantedpreonboarding.entity.Application;
 import hello.wantedpreonboarding.entity.Company;
 import hello.wantedpreonboarding.entity.Posting;
-import hello.wantedpreonboarding.entity.User;
-import hello.wantedpreonboarding.entity.enums.CareerType;
 import hello.wantedpreonboarding.entity.enums.PositionType;
 import hello.wantedpreonboarding.entity.enums.RegionType;
 import org.junit.jupiter.api.BeforeEach;
@@ -121,7 +118,6 @@ public class PostingRepositoryUnitTest {
             saved.updatePosition(PositionType.MANAGEMENT);
             // then
             Posting found = postingRepository.findById(saved.getId()).get();
-
             assertThat(found).isNotNull();
             assertThat(found.getTitle()).isEqualTo("updatedTitle");
             assertThat(found.getStack()).isEqualTo("Python");

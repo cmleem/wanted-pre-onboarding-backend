@@ -25,12 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final ApplicationService applicationService;
 
-    // 채용 공고 1회 지원 로직 수정
-    // 지원하기
+    // 지원하기 (지원서 생성)
     @PostMapping("/apply")
-    public ResponseEntity<?> apply
-    (@RequestParam("username") String username,
-     @RequestParam("postingId") Integer postingId
+    public ResponseEntity<?> apply(
+            @RequestParam("username") String username,
+            @RequestParam("postingId") Integer postingId
     ) {
         ApplicationDto application = applicationService.createApplication(username, postingId);
         ApplicationResponseDto response = ApplicationMapper.toResponse(application);

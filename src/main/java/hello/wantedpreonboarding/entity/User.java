@@ -35,7 +35,4 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private CareerType career;
-
-    @Column(nullable = false)
-    private Boolean exposed;
 }
