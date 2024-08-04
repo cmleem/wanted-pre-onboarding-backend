@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final ApplicationService applicationService;
 
+    // 채용 공고 1회 지원 로직 수정
     // 지원하기
     @PostMapping("/apply")
     public ResponseEntity<?> apply
@@ -36,7 +37,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // 내 지원 확인
+    // 지원 목록 확인
     @GetMapping("/applications")
     public ResponseEntity<?> getMyApplicants(
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
@@ -46,7 +47,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // 지원 목록 확인
+    // 지원 확인
     @GetMapping("/application/{applicationId}")
     public ResponseEntity<?> getMyApplication(
             @PathVariable("applicationId") Integer applicationId

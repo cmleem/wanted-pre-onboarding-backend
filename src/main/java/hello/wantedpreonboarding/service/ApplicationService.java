@@ -26,9 +26,9 @@ public class ApplicationService {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User with name " + username + " not found"));
         Posting posting = postingRepository.findById(postingId).orElseThrow(() -> new IllegalArgumentException("Posting with id " + postingId + " not found"));
 
-        Optional<Application> found = applicationRepository.findByUser(user);
+        Optional<Application> found = applicationRepository.findByUserAndPosting(user, posting);
         if (found.isPresent()) {
-            throw new IllegalArgumentException("Application with User id " + user.getId() + " already exists");
+            throw new IllegalArgumentException("Application already exists");
         }
 
         Application application = Application.builder()

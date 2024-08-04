@@ -1,6 +1,8 @@
 package hello.wantedpreonboarding.controller;
 
 import hello.wantedpreonboarding.dto.PostingDto;
+import hello.wantedpreonboarding.dto.request.PostingCreateRequestDto;
+import hello.wantedpreonboarding.dto.request.PostingUpdateRequestDto;
 import hello.wantedpreonboarding.dto.response.PostingResponseDto;
 import hello.wantedpreonboarding.mapper.PostingMapper;
 import hello.wantedpreonboarding.service.PostingService;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,15 +31,25 @@ public class PostingController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createPosting(
-            @RequestBody PostingDto request) {
-        PostingDto dto = postingService.create(request);
+            @RequestBody PostingCreateRequestDto request) {
+        PostingDto postingDto = PostingDto.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .stack(request.getStack())
+                .region(request.getRegion())
+                .incentive(request.getIncentive())
+                .position(request.getPosition())
+                .deadline(request.getDeadline())
+                .build();
+        PostingDto dto = postingService.create(postingDto, request.getCompanyName());
         PostingResponseDto response = PostingMapper.toResponse(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    // http response deadline, createdAt 이 null 로 나옴
     @GetMapping("/read/{postingId}")
     public ResponseEntity<?> readPosting
-            (@PathVariable("postingId") Integer postingId) {
+    (@PathVariable("postingId") Integer postingId) {
         PostingDto dto = postingService.readPosting(postingId);
         PostingResponseDto response = PostingMapper.toResponse(dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -44,8 +57,10 @@ public class PostingController {
 
     @GetMapping("/read/list")
     public ResponseEntity<?> readPostingList
-            (@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<PostingDto> dtos = postingService.readPostingList(pageable);
+            (@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+             @RequestParam(value = "keyword", defaultValue = "") String keyword
+             ) {
+        Page<PostingDto> dtos = postingService.readPostingList(pageable, keyword);
         Page<PostingResponseDto> response = dtos.map(PostingMapper::toResponse);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -53,8 +68,17 @@ public class PostingController {
     @PatchMapping("/update/{postingId}")
     public ResponseEntity<?> updatePosting
             (@PathVariable("postingId") Integer postingId,
-            @RequestBody PostingDto request) {
-        PostingDto dto = postingService.updatePosting(postingId, request);
+             @RequestBody PostingUpdateRequestDto request) {
+        PostingDto postingDto = PostingDto.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .position(request.getPosition())
+                .incentive(request.getIncentive())
+                .deadline(request.getDeadline())
+                .stack(request.getStack())
+                .region(request.getRegion())
+                .build();
+        PostingDto dto = postingService.updatePosting(postingId, postingDto);
         PostingResponseDto response = PostingMapper.toResponse(dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

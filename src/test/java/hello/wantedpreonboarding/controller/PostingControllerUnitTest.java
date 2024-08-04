@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import hello.wantedpreonboarding.dto.CompanyDto;
 import hello.wantedpreonboarding.dto.PostingDto;
+import hello.wantedpreonboarding.dto.request.PostingCreateRequestDto;
+import hello.wantedpreonboarding.dto.request.PostingUpdateRequestDto;
 import hello.wantedpreonboarding.entity.enums.PositionType;
 import hello.wantedpreonboarding.entity.enums.RegionType;
 import hello.wantedpreonboarding.service.PostingService;
@@ -25,6 +27,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
@@ -71,6 +75,7 @@ public class PostingControllerUnitTest {
                 .region(RegionType.BUSAN)
                 .name("testCompany")
                 .description("testCompany")
+                .postingList(new ArrayList<>())
                 .build();
 
         postingDto = PostingDto.builder()
@@ -95,12 +100,22 @@ public class PostingControllerUnitTest {
         @Test
         void success() throws Exception {
             // given
-            doReturn(postingDto).when(postingService).create(postingDto);
+            PostingCreateRequestDto request = PostingCreateRequestDto.builder()
+                    .title("testTitle")
+                    .content("testContent")
+                    .position(PositionType.MANAGEMENT)
+                    .deadline(LocalDateTime.of(2024, 1, 1, 1, 1, 1))
+                    .incentive(0)
+                    .stack("Python")
+                    .region(RegionType.BUSAN)
+                    .companyName("testCompany")
+                    .build();
+            doReturn(postingDto).when(postingService).create(any(PostingDto.class), any());
 
             // when
             ResultActions resultActions = mockMvc.perform(post("/api/posting/create")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(postingDto))
+                    .content(objectMapper.writeValueAsString(request))
             );
             // then
             resultActions.andExpectAll(
@@ -142,7 +157,7 @@ public class PostingControllerUnitTest {
             var pageRequest = PageRequest.of(0, 10, Sort.by("id").descending());
             var page = new PageImpl<>(list, pageRequest, 5);
 
-            doReturn(page).when(postingService).readPostingList(pageRequest);
+            doReturn(page).when(postingService).readPostingList(pageRequest, "");
             // when
             ResultActions resultActions = mockMvc.perform(get("/api/posting/read/list"));
             // then
@@ -161,11 +176,21 @@ public class PostingControllerUnitTest {
         void success() throws Exception {
             // given
             PostingDto updated = buildPosting(2);
-            doReturn(updated).when(postingService).updatePosting(postingDto.getId(), updated);
+            PostingUpdateRequestDto request = PostingUpdateRequestDto.builder()
+                    .title("testTitle")
+                    .content("testContent")
+                    .position(PositionType.MANAGEMENT)
+                    .deadline(LocalDateTime.of(2024, 1, 1, 1, 1, 1))
+                    .incentive(0)
+                    .stack("Python")
+                    .region(RegionType.BUSAN)
+                    .build();
+
+            doReturn(updated).when(postingService).updatePosting(eq(postingDto.getId()), any(PostingDto.class));
             // when
             ResultActions resultActions = mockMvc.perform(patch("/api/posting/update/" + postingDto.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(updated))
+                    .content(objectMapper.writeValueAsString(request))
             );
             // then
             resultActions.andExpectAll(

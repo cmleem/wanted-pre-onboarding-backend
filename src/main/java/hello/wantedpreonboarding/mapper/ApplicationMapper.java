@@ -10,6 +10,7 @@ public class ApplicationMapper {
                 .id(entity.getId())
                 .user(UserMapper.toDto(entity.getUser()))
                 .posting(PostingMapper.toDto(entity.getPosting()))
+                .createdAt(entity.getCreatedAt())
                 .build();
     }
 

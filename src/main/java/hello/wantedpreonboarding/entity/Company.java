@@ -8,10 +8,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Entity
@@ -37,4 +41,8 @@ public class Company {
 
     @Column(nullable = false)
     private Integer tenure;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "company")
+    private List<Posting> postingList = new ArrayList<>();
 }

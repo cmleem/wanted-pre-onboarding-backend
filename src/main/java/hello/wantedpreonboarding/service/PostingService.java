@@ -3,17 +3,26 @@ package hello.wantedpreonboarding.service;
 import hello.wantedpreonboarding.dto.PostingDto;
 import hello.wantedpreonboarding.entity.Company;
 import hello.wantedpreonboarding.entity.Posting;
-import hello.wantedpreonboarding.entity.enums.PositionType;
-import hello.wantedpreonboarding.entity.enums.RegionType;
 import hello.wantedpreonboarding.mapper.PostingMapper;
 import hello.wantedpreonboarding.repository.CompanyRepository;
 import hello.wantedpreonboarding.repository.PostingRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +30,7 @@ public class PostingService  {
     private final PostingRepository postingRepository;
     private final CompanyRepository companyRepository;
 
-    public PostingDto create(PostingDto dto) {
-        String companyName = dto.getCompany().getName();
+    public PostingDto create(PostingDto dto, String companyName) {
         Company company = companyRepository.findByName(companyName).orElseThrow(() -> new IllegalArgumentException("Company with name " + companyName + " not found"));
 
         Posting posting = Posting.builder()
@@ -44,10 +52,38 @@ public class PostingService  {
         return PostingMapper.toDto(posting);
     }
 
-    public Page<PostingDto> readPostingList(Pageable pageable) {
-        Page<Posting> all = postingRepository.findAll(pageable);
-        return all.map(PostingMapper::toDto);
+    public Page<PostingDto> readPostingList(Pageable pageable, String keyword) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("id"));
+        Specification<Posting> spec = search(keyword);
+        Page<Posting> founds = postingRepository.findAll(spec, pageable);
+        return founds.map(PostingMapper::toDto);
     }
+
+    private Specification<Posting> search(String keyword) {
+        return new Specification<>() {
+            @Serial
+            private final static long serialVersionUID = 1L;
+
+            @Override
+            public Predicate toPredicate(Root<Posting> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                query.distinct(true); // 중복 제거
+                Join<Posting, Company> company = root.join("company", JoinType.LEFT);
+
+                return cb.or(cb.like(root.get("title"), "%" + keyword + "%"),
+                        cb.like(root.get("content"), "%" + keyword + "%"),
+                        cb.like(root.get("position"), "%" + keyword + "%"),
+                        cb.like(root.get("stack"), "%" + keyword + "%"),
+                        cb.like(root.get("region"), "%" + keyword + "%"),
+                        cb.like(root.get("position"), "%" + keyword + "%"),
+                        cb.like(company.get("name"), "%" + keyword + "%"),
+                        cb.like(company.get("description"), "%" + keyword + "%"),
+                        cb.like(company.get("industry"), "%" + keyword + "%")
+                );
+            }
+        };
+    }
+
 
     public PostingDto updatePosting(Integer postingId, PostingDto dto) {
         Posting posting = getPosting(postingId);
