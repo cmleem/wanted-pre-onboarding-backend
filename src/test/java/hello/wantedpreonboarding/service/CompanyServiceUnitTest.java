@@ -54,9 +54,9 @@ public class CompanyServiceUnitTest {
         @Test
         void success() {
             // given
-            doReturn(Optional.of(mockedCompany)).when(companyRepository).findByName(mockedCompany.getName());
+            doReturn(Optional.of(mockedCompany)).when(companyRepository).findById(mockedCompany.getId());
             // when
-            CompanyDto dto = companyService.getCompanyByName(mockedCompany.getName());
+            CompanyDto dto = companyService.findCompany(mockedCompany.getId());
             // then
             assertThat(dto.getName()).isEqualTo(mockedCompany.getName());
             assertThat(dto.getDescription()).isEqualTo(mockedCompany.getDescription());
@@ -67,11 +67,11 @@ public class CompanyServiceUnitTest {
         @Test
         void failNotFoundCompany() {
             // given
-            doReturn(Optional.empty()).when(companyRepository).findByName(mockedCompany.getName());
+            doReturn(Optional.empty()).when(companyRepository).findById(mockedCompany.getId());
             // when
-            IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> companyService.getCompanyByName(mockedCompany.getName()));
+            IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> companyService.findCompany(mockedCompany.getId()));
             // then
-            assertThat(thrown.getMessage()).isEqualTo("Company with name " + mockedCompany.getName() + " not found");
+            assertThat(thrown.getMessage()).isEqualTo("Company with id " + mockedCompany.getId() + " not found");
         }
     }
 
@@ -89,7 +89,7 @@ public class CompanyServiceUnitTest {
             PageImpl<Company> page = new PageImpl<>(companyList);
             doReturn(page).when(companyRepository).findAll(pageRequest);
             // when
-            Page<CompanyDto> companies = companyService.getCompanyList(pageRequest);
+            Page<CompanyDto> companies = companyService.findCompanyList(pageRequest);
             // then
             verify(companyRepository).findAll(pageRequest);
             assertThat(companies).hasSize(5);

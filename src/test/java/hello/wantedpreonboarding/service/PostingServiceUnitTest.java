@@ -111,6 +111,9 @@ public class PostingServiceUnitTest {
             assertThat(dto).isNotNull();
             assertThat(dto.getTitle()).isEqualTo(posting.getTitle());
             assertThat(dto.getContent()).isEqualTo(posting.getContent());
+            assertThat(dto.getRegion()).isEqualTo(posting.getRegion());
+            assertThat(dto.getPosition()).isEqualTo(posting.getPosition());
+            assertThat(dto.getDeadline()).isEqualTo(posting.getDeadLine());
         }
 
         @Test

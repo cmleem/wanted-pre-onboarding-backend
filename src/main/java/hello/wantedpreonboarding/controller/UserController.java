@@ -38,7 +38,7 @@ public class UserController {
 
     // 지원 목록 확인
     @GetMapping("/applications")
-    public ResponseEntity<?> getMyApplicants(
+    public ResponseEntity<?> getApplications(
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         Page<ApplicationDto> dtos = applicationService.readApplicationList(pageable);
@@ -48,7 +48,7 @@ public class UserController {
 
     // 지원 확인
     @GetMapping("/application/{applicationId}")
-    public ResponseEntity<?> getMyApplication(
+    public ResponseEntity<?> getApplication(
             @PathVariable("applicationId") Integer applicationId
     ) {
         ApplicationDto dto = applicationService.readApplicationById(applicationId);
@@ -58,7 +58,7 @@ public class UserController {
 
     // 지원 삭제
     @DeleteMapping("/applications/{applicationId}")
-    public ResponseEntity<?> deleteMyApplication(
+    public ResponseEntity<?> deleteApplication(
             @PathVariable("applicationId") Integer applicationId
     ) {
         applicationService.deleteApplication(applicationId);

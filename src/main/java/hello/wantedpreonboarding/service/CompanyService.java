@@ -14,17 +14,17 @@ import org.springframework.stereotype.Service;
 public class CompanyService {
     private final CompanyRepository companyRepository;
 
-    public CompanyDto getCompanyByName(String name) {
-        Company company = getCompany(name);
+    public CompanyDto findCompany(Integer companyId) {
+        Company company = getCompany(companyId);
         return CompanyMapper.toDto(company);
     }
 
-    public Page<CompanyDto> getCompanyList(Pageable pageable) {
+    public Page<CompanyDto> findCompanyList(Pageable pageable) {
         Page<Company> all = companyRepository.findAll(pageable);
         return all.map(CompanyMapper::toDto);
     }
 
-    private Company getCompany(String name) {
-        return companyRepository.findByName(name).orElseThrow(() -> new IllegalArgumentException("Company with name " + name + " not found"));
+    private Company getCompany(Integer companyId) {
+        return companyRepository.findById(companyId).orElseThrow(() -> new IllegalArgumentException("Company with id " + companyId + " not found"));
     }
 }
