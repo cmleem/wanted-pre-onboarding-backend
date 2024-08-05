@@ -41,7 +41,7 @@ public class PostingController {
                 .position(request.getPosition())
                 .deadline(request.getDeadline())
                 .build();
-        PostingDto dto = postingService.create(postingDto, request.getCompanyName());
+        PostingDto dto = postingService.create(postingDto, request.getCompanyId());
         PostingResponseDto response = PostingMapper.toResponse(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

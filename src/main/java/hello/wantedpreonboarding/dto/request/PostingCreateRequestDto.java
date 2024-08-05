@@ -23,5 +23,5 @@ public class PostingCreateRequestDto {
     private LocalDateTime deadline;
     private String stack;
     private RegionType region;
-    private String companyName;
+    private Integer companyId;
 }

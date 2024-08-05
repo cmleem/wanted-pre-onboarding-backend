@@ -108,7 +108,7 @@ public class PostingControllerUnitTest {
                     .incentive(0)
                     .stack("Python")
                     .region(RegionType.BUSAN)
-                    .companyName("testCompany")
+                    .companyId(companyDto.getId())
                     .build();
             doReturn(postingDto).when(postingService).create(any(PostingDto.class), any());
 
@@ -121,7 +121,10 @@ public class PostingControllerUnitTest {
             resultActions.andExpectAll(
                     status().isCreated(),
                     jsonPath("$.title").value(postingDto.getTitle()),
-                    jsonPath("$.content").value(postingDto.getContent())
+                    jsonPath("$.content").value(postingDto.getContent()),
+                    jsonPath("$.deadline").value(postingDto.getDeadline().toString()),
+                    jsonPath("$.position").value(postingDto.getPosition().toString()),
+                    jsonPath("$.incentive").value(postingDto.getIncentive())
             ).andDo(print());
         }
     }
@@ -193,7 +196,10 @@ public class PostingControllerUnitTest {
             resultActions.andExpectAll(
                     status().isOk(),
                     jsonPath("$.title").value(updated.getTitle()),
-                    jsonPath("$.content").value(updated.getContent())
+                    jsonPath("$.content").value(updated.getContent()),
+                    jsonPath("$.deadline").value(updated.getDeadline().toString()),
+                    jsonPath("$.region").value(updated.getRegion().toString()),
+                    jsonPath("$.incentive").value(updated.getIncentive())
             );
         }
     }

@@ -1,6 +1,5 @@
 package hello.wantedpreonboarding.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.wantedpreonboarding.dto.CompanyDto;
 import hello.wantedpreonboarding.entity.enums.RegionType;
 import hello.wantedpreonboarding.service.CompanyService;
@@ -55,9 +54,9 @@ public class CompanyControllerUnitTest {
         @Test
         void success() throws Exception {
             // given
-            doReturn(company).when(companyService).getCompanyByName(company.getName());
+            doReturn(company).when(companyService).findCompany(company.getId());
             // when
-            ResultActions resultActions = mockMvc.perform(get("/api/company/" + company.getName()));
+            ResultActions resultActions = mockMvc.perform(get("/api/company/" + company.getId()));
             // then
             resultActions.andExpectAll(
                     status().isOk(),
@@ -80,7 +79,7 @@ public class CompanyControllerUnitTest {
             }
             var pageRequest = PageRequest.of(0, 10, Sort.by("id").descending());
             var page = new PageImpl<>(list, pageRequest, list.size());
-            doReturn(page).when(companyService).getCompanyList(pageRequest);
+            doReturn(page).when(companyService).findCompanyList(pageRequest);
             // when
             ResultActions resultActions = mockMvc.perform(get("/api/company/"));
             // then
