@@ -108,7 +108,7 @@ public class PostingControllerUnitTest {
                     .incentive(0)
                     .stack("Python")
                     .region(RegionType.BUSAN)
-                    .companyName("testCompany")
+                    .companyId(companyDto.getId())
                     .build();
             doReturn(postingDto).when(postingService).create(any(PostingDto.class), any());
 

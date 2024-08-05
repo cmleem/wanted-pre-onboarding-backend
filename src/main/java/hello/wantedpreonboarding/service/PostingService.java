@@ -29,8 +29,8 @@ public class PostingService  {
     private final PostingRepository postingRepository;
     private final CompanyRepository companyRepository;
 
-    public PostingDto create(PostingDto dto, String companyName) {
-        Company company = companyRepository.findByName(companyName).orElseThrow(() -> new IllegalArgumentException("Company with name " + companyName + " not found"));
+    public PostingDto create(PostingDto dto, Integer companyId) {
+        Company company = companyRepository.findById(companyId).orElseThrow(() -> new IllegalArgumentException("Company with id " + companyId + " not found"));
 
         Posting posting = Posting.builder()
                 .title(dto.getTitle())
@@ -81,7 +81,6 @@ public class PostingService  {
             }
         };
     }
-
 
     public PostingDto updatePosting(Integer postingId, PostingDto dto) {
         Posting posting = getPosting(postingId);

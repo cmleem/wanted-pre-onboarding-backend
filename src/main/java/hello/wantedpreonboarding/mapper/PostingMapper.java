@@ -6,20 +6,11 @@ import hello.wantedpreonboarding.entity.Posting;
 
 public class PostingMapper {
     public static PostingDto toDto(Posting entity) {
-        return PostingDto.builder()
-                .id(entity.getId())
-                .title(entity.getTitle())
-                .content(entity.getContent())
-                .stack(entity.getStack())
-                .region(entity.getRegion())
-                .position(entity.getPosition())
-                .incentive(entity.getIncentive())
-                .company(CompanyMapper.toDto(entity.getCompany()))
-                .deadline(entity.getDeadLine())
-                .build();
+        return toDto(entity, true);
     }
 
     public static PostingDto toDto(Posting entity, Boolean containCompany) {
+        if (entity == null) return null;
         return PostingDto.builder()
                 .id(entity.getId())
                 .title(entity.getTitle())
@@ -34,6 +25,7 @@ public class PostingMapper {
     }
 
     public static PostingResponseDto toResponse(PostingDto dto) {
+        if (dto == null) return null;
         PostingResponseDto response = PostingResponseDto.builder()
                 .id(dto.getId())
                 .title(dto.getTitle())

@@ -6,6 +6,7 @@ import hello.wantedpreonboarding.entity.Application;
 
 public class ApplicationMapper {
     public static ApplicationDto toDto(Application entity) {
+        if (entity == null) return null;
         return ApplicationDto.builder()
                 .id(entity.getId())
                 .user(UserMapper.toDto(entity.getUser()))
@@ -15,6 +16,7 @@ public class ApplicationMapper {
     }
 
     public static ApplicationResponseDto toResponse(ApplicationDto dto) {
+        if (dto == null) return null;
         return ApplicationResponseDto.builder()
                 .id(dto.getId())
                 .user(UserMapper.toResponse(dto.getUser()))

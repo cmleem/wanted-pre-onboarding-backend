@@ -102,10 +102,10 @@ public class PostingServiceUnitTest {
         @Test
         void success() {
             // given
-            doReturn(Optional.of(company)).when(companyRepository).findByName(company.getName());
+            doReturn(Optional.of(company)).when(companyRepository).findById(company.getId());
             doReturn(posting).when(postingRepository).save(any(Posting.class));
             // when
-            PostingDto dto = postingService.create(postingDto, companyDto.getName());
+            PostingDto dto = postingService.create(postingDto, companyDto.getId());
             // then
             verify(postingRepository).save(any(Posting.class));
             assertThat(dto).isNotNull();
@@ -119,12 +119,12 @@ public class PostingServiceUnitTest {
         @Test
         void failNotFoundCompany() {
             // given
-            doReturn(Optional.empty()).when(companyRepository).findByName(company.getName());
+            doReturn(Optional.empty()).when(companyRepository).findById(company.getId());
             // when
-            IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> postingService.create(postingDto, companyDto.getName()));
+            IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> postingService.create(postingDto, companyDto.getId()));
             // then
             assertThat(thrown).isNotNull();
-            assertThat(thrown.getMessage()).isEqualTo("Company with name " + company.getName() + " not found");
+            assertThat(thrown.getMessage()).isEqualTo("Company with id " + company.getId() + " not found");
             assertThat(thrown.getClass()).isEqualTo(IllegalArgumentException.class);
         }
     }
