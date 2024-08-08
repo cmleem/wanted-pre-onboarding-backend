@@ -18,6 +18,10 @@
 - Spring Boot 3.3.2
 - MySQL 8.3.0
 
+## ERD
+![image](https://github.com/user-attachments/assets/e7a2fc98-2ee7-44af-bcd6-aa96783364bc)
+
+
 ## 주요 기능
 - 채용 공고 상세 조회 시 해당 회사의 채용 공고 리스트 조회 기능
 - 키워드로 채용 공고 및 회사 정보 검색 기능
